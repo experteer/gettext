@@ -128,7 +128,8 @@ module GetText
             target.advance_to_next_attribute if target
           else
             if target && target.msgid
-              existing = targets.find_index {|t| t.matches?(target)}
+              existing=targets.find {|t| t.matches?(target)}
+              existing=targets.index(existing) if existing
               if existing
                 target = targets[existing].merge(target)
                 targets[existing] = target

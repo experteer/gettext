@@ -28,12 +28,13 @@ PKG_VERSION = GetText::VERSION
 desc "Create lib/gettext/poparser.rb"
 task :poparser do
   poparser_path = "lib/gettext/poparser.rb"
-  racc = File.join(Config::CONFIG['bindir'], "racc")
-  if ! FileTest.exist?(racc)
-    puts "racc was not found: #{racc}"
-    exit 1
-  else FileTest.exist?(racc)
-    ruby "#{racc} -g src/poparser.ry -o src/poparser.tmp.rb"
+  racc="racc"
+#  racc = File.join(Config::CONFIG['bindir'], "racc")
+#  if ! FileTest.exist?(racc)
+#    puts "racc was not found: #{racc}"
+#    exit 1
+#  else FileTest.exist?(racc)
+    system(racc,"-g","src/poparser.ry","-o","src/poparser.tmp.rb")
     $stderr.puts  %Q[ruby #{racc} -g src/poparser.ry -o src/poparser.tmp.rb]
 
     file = open(poparser_path, "w")
@@ -55,7 +56,7 @@ EOS
     tmpfile.close
     File.delete("src/poparser.tmp.rb")
     $stderr.puts "Create #{poparser_path}."
-  end
+#  end
 end
 
 
@@ -189,6 +190,32 @@ end
 
 task :package => [:makemo]
 
+  begin
+    require 'jeweler'
+    Jeweler::Tasks.new do |s|
+  s.name = 'gettext'
+    s.version = PKG_VERSION
+      s.summary = 'Ruby-GetText-Package is a libary and tools to localize messages.'
+      s.author = 'Masao Mutoh'
+      s.email = 'mutomasa at gmail.com'
+      s.homepage = 'http://gettext.rubyforge.org/'
+      s.rubyforge_project = "gettext"
+      s.files = FileList['**/*'].to_a.select{|v| v !~ /pkg|CVS|^doc/}
+      s.require_path = 'lib'
+      s.executables = Dir.entries('bin').delete_if {|item| /^\.|CVS|~$/ =~ item }
+      s.bindir = 'bin'
+      s.add_dependency('locale', '>= 2.0.4')
+      s.has_rdoc = true
+      s.description = <<-EOF
+       Ruby-GetText-Package is a GNU GetText-like program for Ruby.
+       The catalog file(po-file) is same format with GNU GetText.
+       So you can use GNU GetText tools for maintaining.
+      EOF
+                                                      
+    end
+  rescue LoadError
+   puts "Jeweler not available."
+  end              
 ############################################################
 # Misc tasks
 ############################################################
