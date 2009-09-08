@@ -9,10 +9,10 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Masao Mutoh"]
-  s.date = %q{2009-09-07}
-  s.description = %q{       Ruby-GetText-Package is a GNU GetText-like program for Ruby.
-       The catalog file(po-file) is same format with GNU GetText.
-       So you can use GNU GetText tools for maintaining.
+  s.date = %q{2009-09-08}
+  s.description = %q{   Ruby-GetText-Package is a GNU GetText-like program for Ruby.
+   The catalog file(po-file) is same format with GNU GetText.
+  So you can use GNU GetText tools for maintaining.
 }
   s.email = %q{mutomasa at gmail.com}
   s.executables = ["rgettext", "rmsgfmt", "rmsgmerge"]
@@ -58,6 +58,7 @@ Gem::Specification.new do |s|
      "data/locale/vi/LC_MESSAGES/rgettext.mo",
      "data/locale/zh/LC_MESSAGES/rgettext.mo",
      "data/locale/zh_TW/LC_MESSAGES/rgettext.mo",
+     "gettext-2.0.4.gem",
      "gettext.gemspec",
      "gettext.gemspec.old",
      "lib/gettext.rb",
@@ -775,7 +776,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{gettext}
   s.rubygems_version = %q{1.3.5}
-  s.summary = %q{Ruby-GetText-Package is a libary and tools to localize messages.}
+  s.summary = %q{Ruby-GetText-Package is a library and tools to localize messages.}
   s.test_files = [
     "test/test_thread.rb",
      "test/testlib/N_.rb",
