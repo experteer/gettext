@@ -200,7 +200,7 @@ begin
     s.email = 'mutomasa at gmail.com'
     s.homepage = 'http://gettext.rubyforge.org/'
     s.rubyforge_project = "gettext"
-    s.files = FileList['**/*'].to_a.select{|v| v !~ /pkg|CVS|^doc|^data|^src|^tmp.pot$|.gem$/}
+    s.files = FileList['**/*'].to_a.select{|v| v !~ /pkg|CVS|^doc|^data|^src|^tmp.pot$|^samples|.gem$/}
     s.require_path = 'lib'
     s.executables = Dir.entries('bin').delete_if {|item| /^\.|CVS|~$/ =~ item }
     s.bindir = 'bin'
