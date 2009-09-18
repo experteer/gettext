@@ -3,7 +3,6 @@
 # Instead, edit Jeweler::Tasks in Rakefile, and run `rake gemspec`
 # -*- encoding: utf-8 -*-
 
-
 Gem::Specification.new do |s|
   s.name = %q{gettext}
   s.version = "2.0.4"

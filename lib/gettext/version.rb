@@ -9,4 +9,5 @@
 =end
 module GetText
   VERSION = "2.0.4"
+  EXPERTEER_SUB_VERSION="1"
 end
