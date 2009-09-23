@@ -58,14 +58,10 @@ class RubyLexX < RubyLex  # :nodoc: all
     return nil
   end
 
-  # Original parser does not keep the content of the comments,
-  # so monkey patching this with new token type and extended
-  # identify_comment implementation
   RubyToken.def_token :TkCOMMENT_WITH_CONTENT, TkVal
 
   def identify_comment
     @ltype = "#"
-    get_readed # skip the hash sign itself
 
     while ch = getc
       if ch == "\n"
@@ -103,8 +99,8 @@ module GetText
       target = nil
       msgid = nil
       line_no = nil
-      last_extracted_comment = ''
-      reset_extracted_comment = false
+      last_translator_comment = ''
+      reset_translator_comment = false
       rl.parse do |tk|
         begin
           case tk
@@ -155,8 +151,8 @@ module GetText
                 file_name + ":" + line_no
               else
                 target_obj = TranslationTarget.new([msgid.gsub(/\n/, '\n'), file_name + ":" + line_no])
-                target_obj.extracted_comment = last_extracted_comment \
-                  unless last_extracted_comment.empty?
+                target_obj.translator_comment = last_translator_comment \
+                  unless last_translator_comment.empty?
                 targets << target_obj
               end
               msgid = nil
@@ -173,21 +169,13 @@ module GetText
 
         case tk 
         when RubyToken::TkCOMMENT_WITH_CONTENT
-          last_extracted_comment = "" if reset_extracted_comment
-          if last_extracted_comment.empty?
-            # new comment from programmer to translator?
-            comment1 = tk.value.lstrip
-            if comment1 =~ /^TRANSLATORS\:/
-              last_extracted_comment += $'
-            end
-          else
-            last_extracted_comment += "\n" 
-            last_extracted_comment += tk.value
-          end
-          reset_extracted_comment = false
+          last_translator_comment = '' if reset_translator_comment
+          last_translator_comment += tk.value
+          reset_translator_comment = false
         when RubyToken::TkNL
+          last_translator_comment += "\n"
         else
-          reset_extracted_comment = true
+          reset_translator_comment = true
         end
       end
       targets
