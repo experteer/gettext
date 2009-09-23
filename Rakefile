@@ -234,7 +234,7 @@ task :setup => [:makemo]
 
 begin
   require 'jeweler'
-  ignore=/pkg|CVS|^doc|^data|^src|^tmp.pot$|^test|^samples\/cgi\/locale|^samples\/locale|.gem|nbproject$/
+  ignore=/pkg|CVS|^doc|^data|^src|^tmp.pot$|^test|^samples\/cgi\/locale|^samples\/locale|.gem|^nbproject$/
   Jeweler::Tasks.new do |s|
     s.name = 'gettext'
     s.version = PKG_VERSION

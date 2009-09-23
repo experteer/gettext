@@ -52,8 +52,6 @@ Gem::Specification.new do |s|
      "lib/gettext/tools/rmsgmerge.rb",
      "lib/gettext/utils.rb",
      "lib/gettext/version.rb",
-     "nbproject/project.properties",
-     "nbproject/project.xml",
      "po/bg/rgettext.po",
      "po/bs/rgettext.po",
      "po/ca/rgettext.po",
