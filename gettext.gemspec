@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
      "bin/rgettext",
      "bin/rmsgfmt",
      "bin/rmsgmerge",
+     "gettext-2.0.4.gem",
      "gettext.gemspec",
      "lib/gettext.rb",
      "lib/gettext/cgi.rb",
