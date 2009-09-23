@@ -13,10 +13,10 @@
   $Id: gettext.rb,v 1.46 2008/09/13 18:23:55 mutoh Exp $
 =end
 
-if respond_to? :gem
+if Object.constants.include? "Gem"
   begin
     begin
-      gem 'locale', '>=2.0' 
+      gem 'locale', '>=2.0.4' 
     rescue Gem::LoadError
     end
   rescue NoMethodError
