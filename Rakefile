@@ -46,7 +46,7 @@ task :poparser do
 
   You may redistribute it and/or modify it under the same
   license terms as Ruby.
-EOS
+    EOS
     file.print "=end\n\n"
 
     tmpfile = open("src/poparser.tmp.rb")
@@ -66,15 +66,15 @@ task :makemo do
 
   $stderr.puts "Create samples mo files."
   GetText.create_mofiles(
-	:po_root => "samples/po", :mo_root => "samples/locale")
+    :po_root => "samples/po", :mo_root => "samples/locale")
 
   $stderr.puts "Create samples/cgi mo files."
   GetText.create_mofiles(
-	:po_root => "samples/cgi/po", :mo_root => "samples/cgi/locale")
+    :po_root => "samples/cgi/po", :mo_root => "samples/cgi/locale")
 
   $stderr.puts "Create test mo files."
   GetText.create_mofiles(
-	:po_root => "test/po", :mo_root => "test/locale")
+    :po_root => "test/po", :mo_root => "test/locale")
 end
 
 desc "Update pot/po files to match new version."
@@ -89,8 +89,8 @@ task :updatepo do
 
   #lib/gettext/*.rb -> rgettext.po
   GetText.update_pofiles("rgettext",
-                         Dir.glob("lib/**/*.rb") + ["src/poparser.ry"],
-                         "ruby-gettext #{GetText::VERSION}")
+    Dir.glob("lib/**/*.rb") + ["src/poparser.ry"],
+    "ruby-gettext #{GetText::VERSION}")
 end
 
 desc "Gather the newest po files. (for me)"
@@ -115,39 +115,39 @@ task :gatherpo => [:updatepo] do
 end
 
 def mv_pofiles(src_dir, target_dir, lang)
-   target = File.join(target_dir, lang)
-   unless File.exist?(target)
-     mkdir_p target
-     sh "cvs add #{target}"
-   end
-   cvs_add_targets = ""
-   Dir.glob(File.join(target_dir, "ja/*.po")).sort.each do |f|
-     srcfile = File.join(src_dir, File.basename(f))
-     if File.exist?(srcfile)
-       unless File.exist?(File.join(target, File.basename(f)))
-         cvs_add_targets << File.join(target, File.basename(f)) + " "
-       end
-       mv srcfile, target, :verbose => true
-     else
-       puts "mv #{srcfile} #{target}/ -- skipped"
-     end
-   end
-   sh "cvs add #{cvs_add_targets}" if cvs_add_targets.size > 0
+  target = File.join(target_dir, lang)
+  unless File.exist?(target)
+    mkdir_p target
+    sh "cvs add #{target}"
+  end
+  cvs_add_targets = ""
+  Dir.glob(File.join(target_dir, "ja/*.po")).sort.each do |f|
+    srcfile = File.join(src_dir, File.basename(f))
+    if File.exist?(srcfile)
+      unless File.exist?(File.join(target, File.basename(f)))
+        cvs_add_targets << File.join(target, File.basename(f)) + " "
+      end
+      mv srcfile, target, :verbose => true
+    else
+      puts "mv #{srcfile} #{target}/ -- skipped"
+    end
+  end
+  sh "cvs add #{cvs_add_targets}" if cvs_add_targets.size > 0
 end
 
 desc "Deploy localized pofiles to current source tree. (for me)"
 task :deploypo do
-     srcdir = ENV["SRCDIR"] ||= File.join(ENV["HOME"], "pofiles")
-     lang = ENV["LOCALE"]
-     unless lang
-       puts "USAGE: rake deploypo [SRCDIR=#{ENV["HOME"]}/pofiles] LOCALE=ja"
-       exit
-    end
-    puts "SRCDIR = #{srcdir}, LOCALE = #{lang}"
+  srcdir = ENV["SRCDIR"] ||= File.join(ENV["HOME"], "pofiles")
+  lang = ENV["LOCALE"]
+  unless lang
+    puts "USAGE: rake deploypo [SRCDIR=#{ENV["HOME"]}/pofiles] LOCALE=ja"
+    exit
+  end
+  puts "SRCDIR = #{srcdir}, LOCALE = #{lang}"
 
-    mv_pofiles(srcdir, "po", lang)
-    mv_pofiles(srcdir, "samples/cgi/po", lang)
-    mv_pofiles(srcdir, "samples/po", lang)
+  mv_pofiles(srcdir, "po", lang)
+  mv_pofiles(srcdir, "samples/cgi/po", lang)
+  mv_pofiles(srcdir, "samples/po", lang)
 end
 
 ############################################################
@@ -192,13 +192,13 @@ end
 ############################################################
 desc 'Run all tests'
 task :test do
-   Dir.chdir("test") do
-     if RUBY_PLATFORM =~ /win32/
-       sh "rake.bat", "test"
-     else
-       sh "rake", "test"
-     end
-   end
+  Dir.chdir("test") do
+    if RUBY_PLATFORM =~ /win32/
+      sh "rake.bat", "test"
+    else
+      sh "rake", "test"
+    end
+  end
 end
 
 Rake::RDocTask.new { |rdoc|
@@ -223,10 +223,39 @@ task :release => [ :package ] do
   rubyforge.configure
   rubyforge.login
   rubyforge.add_release("gettext", "gettext",
-                        "Ruby-GetText-Package #{PKG_VERSION}",
-                        "pkg/gettext-#{PKG_VERSION}.gem",
-                        "pkg/ruby-gettext-package-#{PKG_VERSION}.tar.gz")
+    "Ruby-GetText-Package #{PKG_VERSION}",
+    "pkg/gettext-#{PKG_VERSION}.gem",
+    "pkg/ruby-gettext-package-#{PKG_VERSION}.tar.gz")
 end
 
 desc "Setup Ruby-GetText-Package. (for setup.rb)"
 task :setup => [:makemo]
+
+
+begin
+  require 'jeweler'
+  ignore=/pkg|CVS|^doc|^data|^src|^tmp.pot$|^test|^samples\/cgi\/locale|^samples\/locale|.gem|nbproject$/
+  Jeweler::Tasks.new do |s|
+    s.name = 'gettext'
+    s.version = PKG_VERSION
+    s.summary = 'Ruby-GetText-Package is a library and tools to localize messages.'
+    s.author = 'Masao Mutoh'
+    s.email = 'mutomasa at gmail.com'
+    s.homepage = 'http://gettext.rubyforge.org/'
+    s.rubyforge_project = "gettext"
+    s.files = FileList['**/*'].to_a.select{|v| v !~ ignore }
+    s.require_path = 'lib'
+    s.executables = Dir.entries('bin').delete_if {|item| /^\.|CVS|~$/ =~ item }
+    s.bindir = 'bin'
+    s.add_dependency('locale', '>= 2.0.4')
+    s.has_rdoc = true
+    s.description = <<-EOF
+   Ruby-GetText-Package is a GNU GetText-like program for Ruby.
+   The catalog file(po-file) is same format with GNU GetText.
+  So you can use GNU GetText tools for maintaining.
+    EOF
+  end
+rescue LoadError
+  puts "Jeweler not available."
+end
+
