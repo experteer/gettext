@@ -9,14 +9,8 @@ class TestGetTextString < Test::Unit::TestCase
     assert_equal("test, 1", "%{record}, %{num}" % {:num => 1, :record => "test"})
     assert_equal("1, test", "%d, %s" % [1, "test"])
     assert_equal("test, 1", "%2$s, %1$d" % [1, "test"])
-    assert_raise(ArgumentError) { "%-%" % [1] }
-  end
-
-  def test_sprintf_placeholder_include_non_english
-    assert_equal("a", "%{foo+foo}" % {"foo+foo".to_sym => "a"})
     assert_equal("a", "%{foo.foo}" % {"foo.foo".to_sym => "a"})
-    assert_equal("a }", "%{foo+foo} }" % {"foo+foo".to_sym => "a"})
-    assert_equal("a { b }", "%{foo+foo} { %{bar bar-} }" % {"foo+foo".to_sym => "a", "bar bar-".to_sym => "b"})
+    assert_raise(ArgumentError) { "%-%" % [1] }
   end
 
   def test_percent
