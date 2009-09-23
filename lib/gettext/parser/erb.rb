@@ -17,7 +17,7 @@ module GetText
     extend self
 
     @config = {
-      :extnames => ['.rhtml', '.erb']
+      :extnames => ['.rhtml', '.erb','.html','.plain']
     }
 
     # Sets some preferences to parse ERB files.
