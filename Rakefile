@@ -195,7 +195,7 @@ begin
   Jeweler::Tasks.new do |s|
     s.name = 'gettext'
     s.version = PKG_VERSION
-    s.summary = 'Ruby-GetText-Package is a library and tools to localize messages.'
+    s.summary = 'Ruby-GetText-Package is a libary and tools to localize messages.'
     s.author = 'Masao Mutoh'
     s.email = 'mutomasa at gmail.com'
     s.homepage = 'http://gettext.rubyforge.org/'
