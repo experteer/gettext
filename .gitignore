@@ -4,5 +4,7 @@ data
 test/locale
 samples/cgi/locale/
 samples/locale/
+.idea
 
+*.gem
 

@@ -9,5 +9,7 @@
 =end
 module GetText
   VERSION = "2.0.4"
-  EXPERTEER_SUB_VERSION="2"
+  EXPERTEER_SUB_VERSION="3"
+  RUBY_VER = "2.0.0"
+  raise if RUBY_VERSION != RUBY_VER
 end
